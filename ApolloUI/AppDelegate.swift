@@ -19,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let query = TestQueryQuery()
         apollo.fetch(query: query){ (result, error) in
             guard let data = result?.data else { return }
-            data.me?.project?.stories?.forEach{print($0?.description)}
+            data.me?.project?.stories?.compactMap{$0?.description as? String}.forEach{print($0)}
             // Prints: Han Solo, Leia Organa, C-3PO, R2-D2
         }
 //        apollo.
