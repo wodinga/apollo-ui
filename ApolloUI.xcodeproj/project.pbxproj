@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1049BCA821D6913A0069699D /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1049BCA721D6913A0069699D /* API.swift */; };
 		104CD7F621D557F100777870 /* test.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 104CD7F521D557F100777870 /* test.graphql */; };
-		104CD7FB21D6841800777870 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 104CD7FA21D6841800777870 /* schema.json */; };
 		10A88FAF21D52698001099C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A88FAE21D52698001099C7 /* AppDelegate.swift */; };
 		10A88FB121D52698001099C7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A88FB021D52698001099C7 /* ViewController.swift */; };
 		10A88FB321D5269A001099C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10A88FB221D5269A001099C7 /* Assets.xcassets */; };
@@ -20,7 +19,6 @@
 /* Begin PBXFileReference section */
 		1049BCA721D6913A0069699D /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		104CD7F521D557F100777870 /* test.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = test.graphql; sourceTree = "<group>"; };
-		104CD7FA21D6841800777870 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		10A88FAB21D52698001099C7 /* ApolloUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ApolloUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10A88FAE21D52698001099C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		10A88FB021D52698001099C7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -49,7 +47,6 @@
 			isa = PBXGroup;
 			children = (
 				1049BCA721D6913A0069699D /* API.swift */,
-				104CD7FA21D6841800777870 /* schema.json */,
 				10A88FAD21D52698001099C7 /* ApolloUI */,
 				10A88FAC21D52698001099C7 /* Products */,
 				78F915B913D529E5D2D53226 /* Pods */,
@@ -158,7 +155,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				104CD7FB21D6841800777870 /* schema.json in Resources */,
 				10A88FB321D5269A001099C7 /* Assets.xcassets in Resources */,
 				104CD7F621D557F100777870 /* test.graphql in Resources */,
 				10A88FB621D5269A001099C7 /* Main.storyboard in Resources */,
@@ -207,8 +203,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "apollo schema:download --endpoint=http://tracker-graphql.apps-np.homedepot.com $SCRIPT_OUTPUT_FILE_0\n";
-			showEnvVarsInLog = 0;
+			shellScript = "URL=\"http://localhost:8080\"\n#URL=\"http://tracker-graphql.apps-np.homedepot.com\"\napollo schema:download --endpoint=$URL \"$SCRIPT_OUTPUT_FILE_0\"\n";
 		};
 		10522C2221D5298F000FFAC1 /* Code Gen */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -228,8 +223,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name 'Apollo.framework' -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\n#cd \"${SRCROOT}/${TARGET_NAME}\"\ncd \"${SRCROOT}\"\n$APOLLO_FRAMEWORK_PATH/Versions/Current/Resources/check-and-run-apollo-cli.sh codegen:generate --queries=\"$(find . -name '*.graphql')\" --schema=$SCRIPT_INPUT_FILE_0 $SCRIPT_OUTPUT_FILE_0\n";
-			showEnvVarsInLog = 0;
+			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name 'Apollo.framework' -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\n#cd \"${SRCROOT}/${TARGET_NAME}\"\ncd \"${SRCROOT}\"\n$APOLLO_FRAMEWORK_PATH/Versions/Current/Resources/check-and-run-apollo-cli.sh codegen:generate --queries=\"$(find . -name '*.graphql')\" --schema=\"$SCRIPT_INPUT_FILE_0\" \"$SCRIPT_OUTPUT_FILE_0\"\n";
 		};
 		369FEFB4DC2F5E53D9DD452C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
