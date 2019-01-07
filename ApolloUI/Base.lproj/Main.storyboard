@@ -732,6 +732,9 @@
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <connections>
+                                                <binding destination="21F-k3-hC6" name="value" keyPath="arrangedObjects.created_at" id="9Ty-qj-xM3"/>
+                                            </connections>
                                         </tableColumn>
                                         <tableColumn width="328" minWidth="40" maxWidth="1000" id="ciR-SO-c6L">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Description">
@@ -745,12 +748,11 @@
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <connections>
+                                                <binding destination="21F-k3-hC6" name="value" keyPath="arrangedObjects.description" id="GOY-l7-6z1"/>
+                                            </connections>
                                         </tableColumn>
                                     </tableColumns>
-                                    <connections>
-                                        <outlet property="dataSource" destination="XfG-lQ-9wD" id="TaG-nV-Vpg"/>
-                                        <outlet property="delegate" destination="XfG-lQ-9wD" id="1t7-Bh-MmH"/>
-                                    </connections>
                                 </tableView>
                             </subviews>
                         </clipView>
@@ -773,11 +775,7 @@
                     </connections>
                 </viewController>
                 <userDefaultsController representsSharedInstance="YES" id="RW8-vQ-5OR"/>
-                <arrayController id="21F-k3-hC6">
-                    <connections>
-                        <binding destination="XfG-lQ-9wD" name="contentArray" keyPath="stories" id="xhv-om-hoo"/>
-                    </connections>
-                </arrayController>
+                <arrayController id="21F-k3-hC6"/>
             </objects>
             <point key="canvasLocation" x="75" y="655"/>
         </scene>
