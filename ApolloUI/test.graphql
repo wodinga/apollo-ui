@@ -1,11 +1,19 @@
 query testQuery{
-    me(api_token:"6460ea07df7608e56028f7f8a009c08d"){
-        project(id: "1890409"){
-            stories{
+    me(api_token: "6460ea07df7608e56028f7f8a009c08d") {
+        project(id: "1890409") {
+            stories(
+                    limit: 100
+                    ) {
+                name
                 created_at
-                description
-                
+                owners {
+                    name
+                }
+                labels {
+                    name
+                }
             }
         }
     }
 }
+

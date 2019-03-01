@@ -10,23 +10,41 @@ import Cocoa
 import Apollo
 
 typealias Story = TestQueryQuery.Data.Me.Project.Story
+typealias Label = TestQueryQuery.Data.Me.Project.Story.Label
+typealias Owner = TestQueryQuery.Data.Me.Project.Story.Owner
+
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate{
     let client = (NSApplication.shared.delegate as? AppDelegate)?.apollo
-    @IBOutlet var arrayController: NSArrayController!
-    private var stories = NSArray()
+    private var stories: [Story]?
     @IBOutlet weak var tableView: NSTableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
+        tableView.dataSource = self
         
         //Fetches query found in test.graphql
         let query = TestQueryQuery()
         client?.fetch(query: query){ (result, error) in
-//            debugPrint(result?.data?.me?.project?.stories!.compactMap{$0})
-            
-            //Right now the graphQL
-            self.stories = NSArray(array: result?.data?.me?.project?.stories!.compactMap{$0?.resultMap} ?? [Story(createdAt: "now", description: "test").resultMap])
-            self.arrayController.content = self.stories
+            self.stories = result?.data?.me?.project?.stories as? [Story]
+            self.tableView.reloadData()
         }
+    }
+    
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return stories?.count ?? 0
+    }
+    
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+        if tableColumn?.title == "Story" {
+            return stories?[row].name ?? ""
+        } else if tableColumn?.title == "Label" {
+          return stories?[row].labels?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
+        } else if tableColumn?.title == "Owners" {
+            return stories?[row].owners?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
+        } else if tableColumn?.title == "Date" {
+            return stories?[row].createdAt
+        }
+        return "🚫"
     }
 }
 
