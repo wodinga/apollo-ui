@@ -1,19 +1,23 @@
-query testQuery{
-    me(api_token: "6460ea07df7608e56028f7f8a009c08d") {
-        project(id: "1890409") {
-            stories(
-                    limit: 100
-                    ) {
-                name
-                created_at
-                owners {
-                    name
-                }
-                labels {
-                    name
-                }
-            }
-        }
-    }
+query testQuery {
+me(api_token: "6460ea07df7608e56028f7f8a009c08d") {
+project(id: "1890409") {
+stories(
+created_after: "2018-12-31T00:00:00.000Z"
+with_label: "inventory commons team"
+limit: 100
+) {
+name
+story_type
+created_at
+current_state
+labels {
+name
+}
+owners {
+name
+}
+}
+}
+}
 }
 

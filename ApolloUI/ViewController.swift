@@ -43,6 +43,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             return stories?[row].owners?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
         } else if tableColumn?.title == "Date" {
             return stories?[row].createdAt
+        } else if tableColumn?.title == "Story Type" {
+          return stories?[row].storyType?.rawValue
+        } else if tableColumn?.title == "Current State" {
+            return stories?[row].currentState?.rawValue
         }
         return "🚫"
     }
