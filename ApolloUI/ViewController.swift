@@ -23,7 +23,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         tableView.dataSource = self
         
         //Fetches query found in test.graphql
-        let query = TestQueryQuery()
+//        let query = TestQueryQuery()
+        let query = TestQueryQuery(limit: 3, filter: "ic release")
         client?.fetch(query: query){ (result, error) in
             self.stories = result?.data?.me?.project?.stories as? [Story]
             self.tableView.reloadData()
@@ -44,9 +45,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         } else if tableColumn?.title == "Date" {
             return stories?[row].createdAt
         } else if tableColumn?.title == "Story Type" {
-          return stories?[row].storyType?.rawValue
+//          return stories?[row].storyType?.rawValue
         } else if tableColumn?.title == "Current State" {
-            return stories?[row].currentState?.rawValue
+//            return stories?[row].currentState?.rawValue
         }
         return "🚫"
     }
