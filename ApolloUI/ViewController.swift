@@ -23,8 +23,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         tableView.dataSource = self
         
         //Fetches query found in test.graphql
-//        let query = TestQueryQuery()
-        let query = TestQueryQuery(token: "6460ea07df7608e56028f7f8a009c08d", limit: 3, filter: "ic release")
+//        let query = TestQueryQuery(token: "6460ea07df7608e56028f7f8a009c08d", limit: 3, filter: "ic release")
+        let query = TestQueryQuery(token: "6460ea07df7608e56028f7f8a009c08d", project_id: "1890409", limit: 3, filter: "ic release")
         client?.fetch(query: query){ (result, error) in
             self.stories = result?.data?.me?.project?.stories as? [Story]
             self.tableView.reloadData()

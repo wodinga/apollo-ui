@@ -1,6 +1,6 @@
-query testQuery($token: String!, $limit: Int, $filter: String){
+query testQuery($token: String!, $project_id: ID!, $limit: Int, $filter: String){
     me(api_token: $token) {
-        project(id: "1890409") {
+        project(id: $project_id) {
             stories(
                     limit: $limit
                     filter:$filter
