@@ -1,11 +1,13 @@
-query testQuery($limit: Int, $filter: String){
-    me(api_token: "6460ea07df7608e56028f7f8a009c08d") {
+query testQuery($token: String!, $limit: Int, $filter: String){
+    me(api_token: $token) {
         project(id: "1890409") {
             stories(
                     limit: $limit
                     filter:$filter
                     ) {
                 name
+                story_type
+                current_state
                 created_at
                 owners {
                     name
