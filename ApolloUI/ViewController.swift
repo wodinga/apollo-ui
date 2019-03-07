@@ -10,8 +10,8 @@ import Cocoa
 import Apollo
 
 typealias Story = TestQueryQuery.Data.Me.Project.Story
-typealias Label = TestQueryQuery.Data.Me.Project.Story.Label
-typealias Owner = TestQueryQuery.Data.Me.Project.Story.Owner
+typealias Label = StoryDetails.Label
+typealias Owner = StoryDetails.Owner
 
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate{
     let client = (NSApplication.shared.delegate as? AppDelegate)?.apollo
@@ -21,14 +21,16 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: "details") as? NSWindowController
+        windowController?.showWindow(self)
         
         //Fetches query found in test.graphql
 //        let query = TestQueryQuery(token: "6460ea07df7608e56028f7f8a009c08d", limit: 3, filter: "ic release")
-        let query = TestQueryQuery(token: "6460ea07df7608e56028f7f8a009c08d", project_id: "1890409", limit: 3, filter: "ic release")
-        client?.fetch(query: query){ (result, error) in
-            self.stories = result?.data?.me?.project?.stories as? [Story]
-            self.tableView.reloadData()
-        }
+        let query = TestQueryQuery(token: "6460ea07df7608e56028f7f8a009c08d", project_id: "1890409", limit: 30, filter: "ic release")
+//        client?.fetch(query: query){ (result, error) in
+//            self.stories = result?.data?.me?.project?.stories as? [Story]
+//            self.tableView.reloadData()
+//        }
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -36,18 +38,19 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+        let details = stories?[row].fragments.storyDetails
         if tableColumn?.title == "Story" {
-            return stories?[row].name ?? ""
+            return details?.name ?? ""
         } else if tableColumn?.title == "Label" {
-          return stories?[row].labels?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
+          return details?.labels?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
         } else if tableColumn?.title == "Owners" {
-            return stories?[row].owners?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
+            return details?.owners?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
         } else if tableColumn?.title == "Date" {
-            return stories?[row].createdAt
+            return details?.createdAt
         } else if tableColumn?.title == "Story Type" {
-          return stories?[row].storyType?.rawValue
+          return details?.storyType?.rawValue
         } else if tableColumn?.title == "Current State" {
-            return stories?[row].currentState?.rawValue
+            return details?.currentState?.rawValue
         }
         return "🚫"
     }
