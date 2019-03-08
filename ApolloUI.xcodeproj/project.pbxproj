@@ -206,7 +206,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "URL=\"http://localhost:8081\"\n#URL=\"http://tracker-graphql.apps-np.homedepot.com\"\napollo schema:download --endpoint=$URL \"$SCRIPT_OUTPUT_FILE_0\"\n";
+			shellScript = "URL=\"http://localhost:8080\"\n#URL=\"http://tracker-graphql.apps-np.homedepot.com\"\napollo schema:download --endpoint=$URL \"$SCRIPT_OUTPUT_FILE_0\"\n";
 		};
 		10522C2221D5298F000FFAC1 /* Code Gen */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -236,7 +236,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ApolloUI/Pods-ApolloUI-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-ApolloUI/Pods-ApolloUI-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Apollo/Apollo.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -247,7 +247,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ApolloUI/Pods-ApolloUI-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ApolloUI/Pods-ApolloUI-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

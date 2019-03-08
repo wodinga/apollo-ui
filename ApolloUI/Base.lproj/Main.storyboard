@@ -853,37 +853,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E5E-IR-WYt">
-                                <rect key="frame" x="224" y="202" width="37" height="17"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" placeholderString="Story" id="gEk-pP-kcz">
-                                    <font key="font" usesAppearanceFont="YES"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nkX-q2-aGl">
-                                <rect key="frame" x="18" y="202" width="70" height="17"/>
+                                <rect key="frame" x="18" y="202" width="114" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" placeholderString="Story Type" id="IYc-tW-dF6">
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" placeholderString="Story Type" id="IYc-tW-dF6">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uUa-yc-IvI">
-                                <rect key="frame" x="425" y="202" width="36" height="17"/>
+                                <rect key="frame" x="353" y="202" width="118" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" placeholderString="State" id="CoV-2e-msT">
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" placeholderString="State" id="CoV-2e-msT">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yu9-m1-Iu5">
-                                <rect key="frame" x="224" y="233" width="34" height="17"/>
+                                <rect key="frame" x="169" y="233" width="143" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" placeholderString="Time" id="KcG-wt-YON">
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" placeholderString="Time" id="KcG-wt-YON">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1017,11 +1008,21 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E5E-IR-WYt">
+                                <rect key="frame" x="181" y="202" width="142" height="17"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" placeholderString="Story" id="gEk-pP-kcz">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="dateField" destination="Yu9-m1-Iu5" id="5tv-y5-3PX"/>
                         <outlet property="labelsList" destination="KPQ-bL-oKD" id="S6I-6v-4E6"/>
+                        <outlet property="nameField" destination="E5E-IR-WYt" id="PSs-Kb-OZo"/>
                         <outlet property="ownersList" destination="KPQ-bL-oKD" id="6Rc-8i-cgH"/>
                         <outlet property="stateField" destination="uUa-yc-IvI" id="Ike-8e-yle"/>
                         <outlet property="type" destination="nkX-q2-aGl" id="kjJ-cj-i3p"/>

@@ -16,7 +16,9 @@ typealias Owner = StoryDetails.Owner
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate{
     let client = (NSApplication.shared.delegate as? AppDelegate)?.apollo
     private var stories: [Story]?
+    private var storyViewController: StoryViewController?
     @IBOutlet weak var tableView: NSTableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -24,13 +26,16 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         let windowController = NSStoryboard.main!.instantiateController(withIdentifier: "details") as? NSWindowController
         windowController?.showWindow(self)
         
+        storyViewController = windowController?.contentViewController as? StoryViewController
+        
         //Fetches query found in test.graphql
 //        let query = TestQueryQuery(token: "6460ea07df7608e56028f7f8a009c08d", limit: 3, filter: "ic release")
         let query = TestQueryQuery(token: "6460ea07df7608e56028f7f8a009c08d", project_id: "1890409", limit: 30, filter: "ic release")
-//        client?.fetch(query: query){ (result, error) in
-//            self.stories = result?.data?.me?.project?.stories as? [Story]
-//            self.tableView.reloadData()
-//        }
+        client?.fetch(query: query){ (result, error) in
+            self.stories = result?.data?.me?.project?.stories as? [Story]
+            self.tableView.reloadData()
+            self.storyViewController?.updateView(story: self.stories![0].fragments.storyDetails)
+        }
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -53,6 +58,12 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             return details?.currentState?.rawValue
         }
         return "🚫"
+    }
+    
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        let index = tableView.selectedRow
+        self.storyViewController?.updateView(story: self.stories![index].fragments.storyDetails)
+        
     }
 }
 
