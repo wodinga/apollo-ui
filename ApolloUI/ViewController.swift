@@ -18,6 +18,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     private var stories: [Story]?
     private var storyViewController: StoryViewController?
     @IBOutlet weak var tableView: NSTableView!
+    let defaults = NSUserDefaultsController.shared.defaults
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +31,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         
         //Fetches query found in test.graphql
 //        let query = TestQueryQuery(token: "6460ea07df7608e56028f7f8a009c08d", limit: 3, filter: "ic release")
-        let query = TestQueryQuery(token: "6460ea07df7608e56028f7f8a009c08d", project_id: "1890409", limit: 30, filter: "ic release")
+        let query = TestQueryQuery(token: defaults.string(forKey: "api_key")!, project_id: defaults.string(forKey: "project_id")!, limit: 30, filter: defaults.string(forKey: "filter") ?? "")
         client?.fetch(query: query){ (result, error) in
             self.stories = result?.data?.me?.project?.stories as? [Story]
             self.tableView.reloadData()
@@ -44,17 +45,17 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         let details = stories?[row].fragments.storyDetails
-        if tableColumn?.title == "Story" {
+        if tableColumn?.identifier.rawValue == "name" {
             return details?.name ?? ""
         } else if tableColumn?.title == "Label" {
           return details?.labels?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
         } else if tableColumn?.title == "Owners" {
             return details?.owners?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
-        } else if tableColumn?.title == "Date" {
+        } else if tableColumn?.identifier.rawValue == "time" {
             return details?.createdAt
-        } else if tableColumn?.title == "Story Type" {
+        } else if tableColumn?.identifier.rawValue == "type" {
           return details?.storyType?.rawValue
-        } else if tableColumn?.title == "Current State" {
+        } else if tableColumn?.identifier.rawValue == "state" {
             return details?.currentState?.rawValue
         }
         return "🚫"
