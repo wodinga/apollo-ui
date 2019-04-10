@@ -7,6 +7,9 @@ query testQuery($token: String!, $project_id: ID!, $limit: Int, $filter: String)
                     ) {
                 ...storyDetails
             }
+            labels{
+                name
+            }
         }
     }
 }

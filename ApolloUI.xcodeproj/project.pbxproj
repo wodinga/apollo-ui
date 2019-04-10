@@ -14,6 +14,10 @@
 		10A88FB121D52698001099C7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A88FB021D52698001099C7 /* ViewController.swift */; };
 		10A88FB321D5269A001099C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10A88FB221D5269A001099C7 /* Assets.xcassets */; };
 		10A88FB621D5269A001099C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10A88FB421D5269A001099C7 /* Main.storyboard */; };
+		10B7DB75225BB4D30036E7D1 /* StoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B7DB74225BB4D30036E7D1 /* StoryModel.swift */; };
+		10B7DB77225BB4E50036E7D1 /* LabelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B7DB76225BB4E50036E7D1 /* LabelModel.swift */; };
+		10B7DB79225BB4F30036E7D1 /* PersonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B7DB78225BB4F30036E7D1 /* PersonModel.swift */; };
+		10B7DB7B225BB6A50036E7D1 /* ProjectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10B7DB7A225BB6A50036E7D1 /* ProjectView.xib */; };
 		E8DF8F13B6ED830B0E07836F /* Pods_ApolloUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43804BAB58FEE6185FDC9195 /* Pods_ApolloUI.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +32,10 @@
 		10A88FB521D5269A001099C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		10A88FB721D5269A001099C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		10A88FB821D5269A001099C7 /* ApolloUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ApolloUI.entitlements; sourceTree = "<group>"; };
+		10B7DB74225BB4D30036E7D1 /* StoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryModel.swift; sourceTree = "<group>"; };
+		10B7DB76225BB4E50036E7D1 /* LabelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelModel.swift; sourceTree = "<group>"; };
+		10B7DB78225BB4F30036E7D1 /* PersonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonModel.swift; sourceTree = "<group>"; };
+		10B7DB7A225BB6A50036E7D1 /* ProjectView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProjectView.xib; sourceTree = "<group>"; };
 		27A08BAF14361156809BA763 /* Pods-ApolloUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApolloUI.release.xcconfig"; path = "Pods/Target Support Files/Pods-ApolloUI/Pods-ApolloUI.release.xcconfig"; sourceTree = "<group>"; };
 		43804BAB58FEE6185FDC9195 /* Pods_ApolloUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ApolloUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEB378D2417977ACD996E0CA /* Pods-ApolloUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApolloUI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ApolloUI/Pods-ApolloUI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -68,15 +76,27 @@
 		10A88FAD21D52698001099C7 /* ApolloUI */ = {
 			isa = PBXGroup;
 			children = (
+				10B7DB73225BB46C0036E7D1 /* Models */,
 				10A88FAE21D52698001099C7 /* AppDelegate.swift */,
 				104CD7F521D557F100777870 /* test.graphql */,
 				10A88FB021D52698001099C7 /* ViewController.swift */,
 				10A88FB221D5269A001099C7 /* Assets.xcassets */,
 				10A88FB421D5269A001099C7 /* Main.storyboard */,
+				10B7DB7A225BB6A50036E7D1 /* ProjectView.xib */,
 				10A88FB721D5269A001099C7 /* Info.plist */,
 				10A88FB821D5269A001099C7 /* ApolloUI.entitlements */,
 			);
 			path = ApolloUI;
+			sourceTree = "<group>";
+		};
+		10B7DB73225BB46C0036E7D1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				10B7DB74225BB4D30036E7D1 /* StoryModel.swift */,
+				10B7DB76225BB4E50036E7D1 /* LabelModel.swift */,
+				10B7DB78225BB4F30036E7D1 /* PersonModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		78F915B913D529E5D2D53226 /* Pods */ = {
@@ -160,6 +180,7 @@
 			files = (
 				10A88FB321D5269A001099C7 /* Assets.xcassets in Resources */,
 				104CD7F621D557F100777870 /* test.graphql in Resources */,
+				10B7DB7B225BB6A50036E7D1 /* ProjectView.xib in Resources */,
 				10A88FB621D5269A001099C7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -259,8 +280,11 @@
 			files = (
 				1021040E222EF18400890121 /* StoryViewController.swift in Sources */,
 				1049BCA821D6913A0069699D /* API.swift in Sources */,
+				10B7DB77225BB4E50036E7D1 /* LabelModel.swift in Sources */,
 				10A88FB121D52698001099C7 /* ViewController.swift in Sources */,
+				10B7DB79225BB4F30036E7D1 /* PersonModel.swift in Sources */,
 				10A88FAF21D52698001099C7 /* AppDelegate.swift in Sources */,
+				10B7DB75225BB4D30036E7D1 /* StoryModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

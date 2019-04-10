@@ -11,58 +11,84 @@ import Apollo
 
 typealias Story = TestQueryQuery.Data.Me.Project.Story
 typealias Label = StoryDetails.Label
+typealias ProjectLabels = TestQueryQuery.Data.Me.Project.Label
 typealias Owner = StoryDetails.Owner
 
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate{
     let client = (NSApplication.shared.delegate as? AppDelegate)?.apollo
     private var stories: [Story]?
+    private var projectLabels: [ProjectLabels]?
     private var storyViewController: StoryViewController?
-    @IBOutlet weak var tableView: NSTableView!
+    @IBOutlet weak var storyList: NSTableView!
+    @IBOutlet weak var membersList: NSTableView!
+    @IBOutlet weak var labelList: NSTableView!
     let defaults = NSUserDefaultsController.shared.defaults
-    
+    var query: TestQueryQuery?
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
+        
+        storyList.delegate = self
+        storyList.dataSource = self
+        membersList.delegate = self
+        membersList.dataSource = self
+        labelList.delegate = self
+        labelList.dataSource = self
         let windowController = NSStoryboard.main!.instantiateController(withIdentifier: "details") as? NSWindowController
         windowController?.showWindow(self)
         
         storyViewController = windowController?.contentViewController as? StoryViewController
         
         //Fetches query found in test.graphql
-//        let query = TestQueryQuery(token: "6460ea07df7608e56028f7f8a009c08d", limit: 3, filter: "ic release")
-        let query = TestQueryQuery(token: defaults.string(forKey: "api_key")!, project_id: defaults.string(forKey: "project_id")!, limit: 30, filter: defaults.string(forKey: "filter") ?? "")
-        client?.fetch(query: query){ (result, error) in
-            self.stories = result?.data?.me?.project?.stories as? [Story]
-            self.tableView.reloadData()
-            self.storyViewController?.updateView(story: self.stories![0].fragments.storyDetails)
+        query = TestQueryQuery(token: defaults.string(forKey: "api_key")!, project_id: defaults.string(forKey: "project_id")!, limit: 30, filter: defaults.string(forKey: "filter") ?? "")
+        client?.fetch(query: query!){ (result, error) in
+            if(error == nil){
+                self.stories = result?.data?.me?.project?.stories as? [Story]
+                self.projectLabels = result?.data?.me?.project?.labels as? [ProjectLabels]
+                self.storyList.reloadData()
+                self.labelList.reloadData()
+//                self.storyList.reloadData()
+                self.storyViewController?.updateView(story: self.stories![0].fragments.storyDetails)
+            }
         }
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return stories?.count ?? 0
+        if tableView == storyList{
+            return stories?.count ?? 0
+        } else if tableView == labelList {
+            return projectLabels?.count ?? 0
+        } else if tableView == membersList {
+            return 0
+        }
+        return 0
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         let details = stories?[row].fragments.storyDetails
-        if tableColumn?.identifier.rawValue == "name" {
-            return details?.name ?? ""
-        } else if tableColumn?.title == "Label" {
-          return details?.labels?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
-        } else if tableColumn?.title == "Owners" {
-            return details?.owners?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
-        } else if tableColumn?.identifier.rawValue == "time" {
-            return details?.createdAt
-        } else if tableColumn?.identifier.rawValue == "type" {
-          return details?.storyType?.rawValue
-        } else if tableColumn?.identifier.rawValue == "state" {
-            return details?.currentState?.rawValue
+        if tableView == storyList {
+            if tableColumn?.identifier.rawValue == "Description" {
+                return details?.name ?? ""
+            } else if tableColumn?.title == "Label" {
+                return details?.labels?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
+            } else if tableColumn?.title == "Owners" {
+                return details?.owners?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
+            } else if tableColumn?.identifier.rawValue == "Date" {
+                return details?.createdAt
+            } else if tableColumn?.identifier.rawValue == "type" {
+                return details?.storyType?.rawValue
+            } else if tableColumn?.identifier.rawValue == "state" {
+                return details?.currentState?.rawValue
+            }
+        } else if tableView == membersList {
+//            return
+        } else if tableView == labelList {
+            return projectLabels?[row].name
         }
         return "🚫"
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
-        let index = tableView.selectedRow
+        let index = storyList.selectedRow
         self.storyViewController?.updateView(story: self.stories![index].fragments.storyDetails)
         
     }
