@@ -42,11 +42,13 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 
         
         //Fetches query found in test.graphql
-        query = TestQueryQuery(token: defaults.string(forKey: "api_key")!, project_id: defaults.string(forKey: "project_id")!, limit: 30, filter: defaults.string(forKey: "filter") ?? "")
+        query = TestQueryQuery(token: defaults.string(forKey: "api_key")!, project_id: defaults.string(forKey: "project_id")!, limit: 30, filter: defaults.string(forKey: "filter") ?? "inventory commons")
         client?.fetch(query: query!){ (result, error) in
             if(error == nil){
                 self.stories = result?.data?.me?.project?.stories as? [Story]
-                self.projectLabels = result?.data?.me?.project?.labels as? [ProjectLabel]
+                self.projectLabels = result?.data?.me?.project?.labels?.compactMap{$0}.sorted{label1, label2 in
+                    label1.updatedAt! > label2.updatedAt!
+                }
                 self.projectMembers = result?.data?.me?.project?.members?.compactMap{$0?.person}
                 self.storyList.reloadData()
                 self.labelList.reloadData()
@@ -92,7 +94,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     func tableViewSelectionDidChange(_ notification: Notification) {
         let index = storyList.selectedRow
-        self.storyViewController?.updateView(story: self.stories![index].fragments.storyDetails)
+        if index >= 0{
+            self.storyViewController?.updateView(story: self.stories![index].fragments.storyDetails)
+        }
         
     }
 }

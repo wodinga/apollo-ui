@@ -9,6 +9,7 @@ query testQuery($token: String!, $project_id: ID!, $limit: Int, $filter: String)
             }
             labels{
                 name
+                updated_at
             }
             members{
                 person{
