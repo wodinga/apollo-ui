@@ -12,7 +12,7 @@ import Apollo
 typealias Story = TestQueryQuery.Data.Me.Project.Story
 typealias Label = StoryDetails.Label
 typealias ProjectLabel = TestQueryQuery.Data.Me.Project.Label
-typealias ProjectMember = TestQueryQuery.Data.Me.Project.Member
+typealias ProjectMember = TestQueryQuery.Data.Me.Project.Member.Person
 typealias Owner = StoryDetails.Owner
 
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate{
@@ -47,7 +47,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             if(error == nil){
                 self.stories = result?.data?.me?.project?.stories as? [Story]
                 self.projectLabels = result?.data?.me?.project?.labels as? [ProjectLabel]
-                self.projectMembers = result?.data?.me?.project?.members as? [ProjectMember]
+                self.projectMembers = result?.data?.me?.project?.members?.compactMap{$0?.person}
                 self.storyList.reloadData()
                 self.labelList.reloadData()
                 self.membersList.reloadData()
@@ -69,27 +69,25 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        let details = stories?[row].fragments.storyDetails
-        if tableView == storyList {
-            if tableColumn?.identifier.rawValue == "name" {
-                return details?.name ?? ""
-            } else if tableColumn?.title == "Label" {
-                return details?.labels?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
-            } else if tableColumn?.title == "Owners" {
-                return details?.owners?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
-            } else if tableColumn?.identifier.rawValue == "time" {
-                return details?.createdAt
-            } else if tableColumn?.identifier.rawValue == "type" {
-                return details?.storyType?.rawValue
-            } else if tableColumn?.identifier.rawValue == "state" {
-                return details?.currentState?.rawValue
-            }
-        } else if tableView == membersList {
-            return projectMembers?[row].name
-        } else if tableView == labelList {
-            return projectLabels?[row].name
+        
+        switch tableView {
+            case storyList:
+                let details = stories?[row].fragments.storyDetails
+                switch tableColumn?.identifier.rawValue {
+                case "Description":
+                    return details?.name ?? ""
+                case "Date":
+                    return details?.createdAt
+                default:
+                    return "🚫"
+                }
+            case membersList:
+                return projectMembers?[row].name
+            case labelList:
+                return projectLabels?[row].name
+            default:
+                return "🚫"
         }
-        return "🚫"
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {

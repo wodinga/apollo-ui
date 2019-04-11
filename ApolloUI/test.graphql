@@ -11,7 +11,9 @@ query testQuery($token: String!, $project_id: ID!, $limit: Int, $filter: String)
                 name
             }
             members{
-                name
+                person{
+                    name
+                }
             }
         }
     }
