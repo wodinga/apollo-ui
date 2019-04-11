@@ -13,7 +13,7 @@ import Apollo
 class AppDelegate: NSObject, NSApplicationDelegate {
 
 //    let apollo = ApolloClient(url: URL(string: "http://tracker-graphql.apps-np.homedepot.com")!)
-    let apollo = ApolloClient(url: URL(string: "http://localhost:8080")!)
+    let apollo = ApolloClient(url: URL(string: "http://192.168.1.6:8080")!)
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
 //        let query = TestQueryQuery()

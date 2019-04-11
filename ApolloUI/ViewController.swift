@@ -11,13 +11,15 @@ import Apollo
 
 typealias Story = TestQueryQuery.Data.Me.Project.Story
 typealias Label = StoryDetails.Label
-typealias ProjectLabels = TestQueryQuery.Data.Me.Project.Label
+typealias ProjectLabel = TestQueryQuery.Data.Me.Project.Label
+typealias ProjectMember = TestQueryQuery.Data.Me.Project.Member
 typealias Owner = StoryDetails.Owner
 
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate{
     let client = (NSApplication.shared.delegate as? AppDelegate)?.apollo
     private var stories: [Story]?
-    private var projectLabels: [ProjectLabels]?
+    private var projectLabels: [ProjectLabel]?
+    private var projectMembers: [ProjectMember]?
     private var storyViewController: StoryViewController?
     @IBOutlet weak var storyList: NSTableView!
     @IBOutlet weak var membersList: NSTableView!
@@ -37,16 +39,18 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         windowController?.showWindow(self)
         
         storyViewController = windowController?.contentViewController as? StoryViewController
+
         
         //Fetches query found in test.graphql
         query = TestQueryQuery(token: defaults.string(forKey: "api_key")!, project_id: defaults.string(forKey: "project_id")!, limit: 30, filter: defaults.string(forKey: "filter") ?? "")
         client?.fetch(query: query!){ (result, error) in
             if(error == nil){
                 self.stories = result?.data?.me?.project?.stories as? [Story]
-                self.projectLabels = result?.data?.me?.project?.labels as? [ProjectLabels]
+                self.projectLabels = result?.data?.me?.project?.labels as? [ProjectLabel]
+                self.projectMembers = result?.data?.me?.project?.members as? [ProjectMember]
                 self.storyList.reloadData()
                 self.labelList.reloadData()
-//                self.storyList.reloadData()
+                self.membersList.reloadData()
                 self.storyViewController?.updateView(story: self.stories![0].fragments.storyDetails)
             }
         }
@@ -58,7 +62,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         } else if tableView == labelList {
             return projectLabels?.count ?? 0
         } else if tableView == membersList {
-            return 0
+            return projectMembers?.count ?? 0
+
         }
         return 0
     }
@@ -66,13 +71,13 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         let details = stories?[row].fragments.storyDetails
         if tableView == storyList {
-            if tableColumn?.identifier.rawValue == "Description" {
+            if tableColumn?.identifier.rawValue == "name" {
                 return details?.name ?? ""
             } else if tableColumn?.title == "Label" {
                 return details?.labels?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
             } else if tableColumn?.title == "Owners" {
                 return details?.owners?.compactMap{$0!.name}.reduce("", {"\($0!)\($1), "})
-            } else if tableColumn?.identifier.rawValue == "Date" {
+            } else if tableColumn?.identifier.rawValue == "time" {
                 return details?.createdAt
             } else if tableColumn?.identifier.rawValue == "type" {
                 return details?.storyType?.rawValue
@@ -80,7 +85,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                 return details?.currentState?.rawValue
             }
         } else if tableView == membersList {
-//            return
+            return projectMembers?[row].name
         } else if tableView == labelList {
             return projectLabels?[row].name
         }
