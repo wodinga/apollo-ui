@@ -50,7 +50,8 @@ class StoryViewController: NSViewController, NSTableViewDataSource {
     
     public func updateView(story: StoryDetails){
         labels = (story.labels?.compactMap{$0!.name})!
-        owners = (story.owners?.compactMap{$0!.name})!
+        owners = (story.owners?.compactMap{$0!.fragments.personDetails.name})!
+//        owners = (story.owners?.compactMap{$0)!
         date = story.createdAt
         type = story.storyType?.rawValue
         state = story.currentState?.rawValue

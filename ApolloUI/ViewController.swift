@@ -9,17 +9,19 @@
 import Cocoa
 import Apollo
 
-typealias Story = TestQueryQuery.Data.Me.Project.Story
-typealias Label = StoryDetails.Label
+
+typealias Story = StoryDetails
+typealias Label = Story.Label
 typealias ProjectLabel = TestQueryQuery.Data.Me.Project.Label
 typealias ProjectMember = TestQueryQuery.Data.Me.Project.Member.Person
-typealias Owner = StoryDetails.Owner
+typealias Owner = Story.Owner
+typealias Person = PersonDetails
 
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate{
     let client = (NSApplication.shared.delegate as? AppDelegate)?.apollo
     private var stories: [Story]?
     private var projectLabels: [ProjectLabel]?
-    private var projectMembers: [ProjectMember]?
+    private var projectMembers: [Person]?
     private var storyViewController: StoryViewController?
     @IBOutlet weak var storyList: NSTableView!
     @IBOutlet weak var membersList: NSTableView!
@@ -45,15 +47,15 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         query = TestQueryQuery(token: defaults.string(forKey: "api_key")!, project_id: defaults.string(forKey: "project_id")!, limit: 30, filter: defaults.string(forKey: "filter") ?? "inventory commons")
         client?.fetch(query: query!){ (result, error) in
             if(error == nil){
-                self.stories = result?.data?.me?.project?.stories as? [Story]
+                self.stories = result?.data?.me?.project?.stories?.compactMap{$0!.fragments.storyDetails}
                 self.projectLabels = result?.data?.me?.project?.labels?.compactMap{$0}.sorted{label1, label2 in
                     label1.updatedAt! > label2.updatedAt!
                 }
-                self.projectMembers = result?.data?.me?.project?.members?.compactMap{$0?.person}
+                self.projectMembers = result?.data?.me?.project?.members?.compactMap{$0?.person.fragments.personDetails}
                 self.storyList.reloadData()
                 self.labelList.reloadData()
                 self.membersList.reloadData()
-                self.storyViewController?.updateView(story: self.stories![0].fragments.storyDetails)
+                self.storyViewController?.updateView(story: self.stories![0])
             }
         }
     }
@@ -74,7 +76,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         
         switch tableView {
             case storyList:
-                let details = stories?[row].fragments.storyDetails
+                let details = stories?[row]
                 switch tableColumn?.identifier.rawValue {
                 case "Description":
                     return details?.name ?? ""
@@ -95,7 +97,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     func tableViewSelectionDidChange(_ notification: Notification) {
         let index = storyList.selectedRow
         if index >= 0{
-            self.storyViewController?.updateView(story: self.stories![index].fragments.storyDetails)
+            self.storyViewController?.updateView(story: self.stories![index])
         }
         
     }

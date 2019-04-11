@@ -13,7 +13,7 @@ query testQuery($token: String!, $project_id: ID!, $limit: Int, $filter: String)
             }
             members{
                 person{
-                    name
+                    ...personDetails
                 }
             }
         }
@@ -26,9 +26,13 @@ fragment storyDetails on Story {
     current_state
     created_at
     owners {
-        name
+        ...personDetails
     }
     labels {
         name
     }
+}
+
+fragment personDetails on Person {
+    name
 }
